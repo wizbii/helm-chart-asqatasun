@@ -14,7 +14,7 @@ Test:
   image: ${GCR_URL}/devops/helm:master
   stage: test
   script:
-    - helm dependency build
+    - helm dependency build "${HELM_CHART_NAME}"
     - helm template test "${HELM_CHART_NAME}" --debug
   rules:
     - if: $CI_COMMIT_BRANCH
