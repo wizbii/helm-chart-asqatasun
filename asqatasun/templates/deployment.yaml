@@ -27,10 +27,14 @@ spec:
             httpGet:
               path: /
               port: http
+            initialDelaySeconds: 15
+            periodSeconds: 10
           readinessProbe:
             httpGet:
               path: /
               port: http
+            initialDelaySeconds: 15
+            periodSeconds: 10
           env:
             {{- with .Values.env }}
             {{- . | toYaml | trim | nindent 12 }}
