@@ -70,3 +70,9 @@ ingress:
   # - secretName: chart-example-tls
   #   hosts:
   #     - chart-example.local
+mysql:
+  enabled: true
+  auth:
+    database: "asqatasun"
+    username: "asqatasunDatabaseUserLogin"
+    password: "asqatasunDatabaseUserP4ssword"
