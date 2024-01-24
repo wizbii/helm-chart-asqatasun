@@ -1,0 +1,72 @@
+# Default values for hello-world.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: asqatasun/asqatasun
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "5.0.0-rc.1"
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: false
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+service:
+  type: ClusterIP
+  port: 80
+
+## Environment variables to attach to the pods
+##
+env:
+  - name: DB_DRIVER
+    value: "mysql"
+  - name: DB_PORT
+    value: "3306"
+  - name: DB_HOST
+    value: "asqatasun-db"
+  - name: DB_USER
+    value: "asqatasunDatabaseUserLogin"
+  - name: DB_PASSWORD
+    value: "asqatasunDatabaseUserP4ssword"
+  - name: DB_DATABASE
+    value: "asqatasun"
+  - name: DEBUG_DISPLAY_SOFTWARE_VERSIONS
+    value: "enabled"
+
+ingress:
+  enabled: false
+  # Used to create an Ingress record.
+  hosts:
+    - name: sonarqube.your-org.com
+      path: /
+      # For additional control over serviceName and servicePort
+      # serviceName: someService
+      # servicePort: somePort
+      # the pathType can be one of the following values: Exact|Prefix|ImplementationSpecific(default)
+      # pathType: ImplementationSpecific
+  annotations:
+  # kubernetes.io/tls-acme: "true"
+
+  # Set the ingressClassName on the ingress record
+  # ingressClassName: nginx
+
+  # Additional labels for Ingress manifest file
+  # labels:
+  #  traffic-type: external
+  #  traffic-type: internal
+  tls: []
+  # Secrets must be manually created in the namespace. To generate a self-signed certificate (and private key) and then create the secret in the cluster please refer to official documentation available at https://kubernetes.github.io/ingress-nginx/user-guide/tls/#tls-secrets
+  # - secretName: chart-example-tls
+  #   hosts:
+  #     - chart-example.local
