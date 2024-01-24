@@ -5,6 +5,7 @@ include:
 variables:
   GCS_BUCKET_PATH: gs://helm-wizbii/packages
   HELM_CHART_NAME: "asqatasun"
+  BITNAMI_REPO: https://charts.bitnami.com/bitnami
 
 stages:
   - test
@@ -14,6 +15,7 @@ Test:
   image: ${GCR_URL}/devops/helm:master
   stage: test
   script:
+    - helm repo add bitnami "${BITNAMI_REPO}"
     - helm dependency build "${HELM_CHART_NAME}"
     - helm template test "${HELM_CHART_NAME}" --debug
   rules:
@@ -27,6 +29,7 @@ Package:
   script:
     - echo "${GCS_HELM}" > /etc/gcs.json
     - export GOOGLE_APPLICATION_CREDENTIALS=/etc/gcs.json
+    - helm repo add bitnami "${BITNAMI_REPO}"
     - helm repo add wizbii "${GCS_BUCKET_PATH}"
     - helm repo update
     - helm package --dependency-update "${HELM_CHART_NAME}"
