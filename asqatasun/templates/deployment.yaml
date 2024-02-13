@@ -16,8 +16,8 @@ spec:
 {{- with .Values.podLabels }}
 {{ toYaml . | indent 8 }}
 {{- end }}
-      annotations:
 {{- if .Values.annotations}}
+      annotations:
       {{- range $key, $value := .Values.annotations }}
         {{ $key }}: {{ $value | quote }}
       {{- end }}
@@ -59,7 +59,7 @@ spec:
             - name: DB_PORT
               value: {{ .Values.jdbc.port }}
             - name: DB_HOST
-              value: {{ .Values.jdbc.host }}
+              value: {{ .Values.jdbc.host | quote }}
             - name: DB_USER
               value: {{ .Values.jdbc.username }}
             - name: DB_PASSWORD
@@ -71,6 +71,7 @@ spec:
             {{- else if .Values.jdbc.password }}
               value: {{ .Values.jdbc.password }}
             {{- end }}
+{{- if or .Values.extraConfig.secrets .Values.extraConfig.configmaps}}
           envFrom:
 {{- range .Values.extraConfig.secrets }}
             - secretRef:
@@ -79,4 +80,5 @@ spec:
 {{- range .Values.extraConfig.configmaps }}
             - configMapRef:
                 name: {{ . }}
+{{- end }}
 {{- end }}
