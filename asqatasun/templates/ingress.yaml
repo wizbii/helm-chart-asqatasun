@@ -4,15 +4,12 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ template "asqatasun.fullname" . }}
+  name: {{ include "asqatasun.fullname" . }}
   labels:
-    app: {{ template "asqatasun.name" . }}
-    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    {{- include "asqatasun.labels" . | nindent 4 }}
 {{- if .Values.ingress.labels }}
 {{ .Values.ingress.labels | toYaml | trimSuffix "\n"| indent 4 -}}
-{{- end}}
+{{- end }}
 {{- if .Values.ingress.annotations}}
   annotations:
     {{- range $key, $value := .Values.ingress.annotations }}

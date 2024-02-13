@@ -1,7 +1,3 @@
-# Default values for hello-world.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
 replicaCount: 1
 
 image:
@@ -12,6 +8,9 @@ image:
 
 nameOverride: ""
 fullnameOverride: ""
+
+annotations: {}
+podLabels: {}
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -24,31 +23,60 @@ serviceAccount:
 
 service:
   type: ClusterIP
-  port: 80
+  externalPort: 80
+  internalPort: 8080
 
-## Environment variables to attach to the pods
-##
-env:
-  - name: DB_DRIVER
-    value: "mysql"
-  - name: DB_PORT
-    value: "3306"
-  - name: DB_HOST
-    value: "asqatasun-db"
-  - name: DB_USER
-    value: "asqatasunDatabaseUserLogin"
-  - name: DB_PASSWORD
-    value: "asqatasunDatabaseUserP4ssword"
-  - name: DB_DATABASE
-    value: "asqatasun"
-  - name: DEBUG_DISPLAY_SOFTWARE_VERSIONS
-    value: "enabled"
+# Environment variables to attach to the pods
+env: []
+#  - name: DEBUG_DISPLAY_SOFTWARE_VERSIONS
+#    value: "enabled"
+
+# Database configuration
+# If you use the bundled database (i.e. `mysql.enabled: true`), configure these values to match the bundled configuration
+jdbc:
+  driver: "mysql"
+  port: "3306"
+  host: "asqatasun-db"
+  database: "asqatasun"
+  username: "asqatasunDatabaseUserLogin"
+  password: "asqatasunDatabaseUserP4ssword" # Use this if you don't mind the DB password getting stored in plain text within the values file
+  secretName: ""
+  secretPasswordKey: ""
+
+livenessProbe:
+  path: /
+  initialDelaySeconds: 15
+  periodSeconds: 10
+  failureThreshold: 2
+  timeoutSeconds: 1
+
+readinessProbe:
+  path: /
+  initialDelaySeconds: 15
+  periodSeconds: 10
+  failureThreshold: 2
+  timeoutSeconds: 1
+
+# extraConfig is used to load Environment Variables from Secrets and ConfigMaps
+# which may have been written by other tools, such as external orchestrators.
+extraConfig:
+  secrets: []
+  configmaps: []
+
+# Adjust these values to your needs, but make sure that the memory limit is never under 4 GB
+resources:
+  limits:
+    cpu: 2
+    memory: 4Gi
+  requests:
+    cpu: 1
+    memory: 2Gi
 
 ingress:
   enabled: false
   # Used to create an Ingress record.
   hosts:
-    - name: sonarqube.your-org.com
+    - name: asqatasun.your-org.com
       path: /
       # For additional control over serviceName and servicePort
       # serviceName: someService
@@ -70,6 +98,9 @@ ingress:
   # - secretName: chart-example-tls
   #   hosts:
   #     - chart-example.local
+
+# Configuration values for mysql dependency
+# ref: https://github.com/bitnami/charts/blob/main/bitnami/mysql/README.md
 mysql:
   enabled: true
   image:

@@ -13,6 +13,15 @@ spec:
     metadata:
       labels:
         {{- include "asqatasun.selectorLabels" . | nindent 8 }}
+{{- with .Values.podLabels }}
+{{ toYaml . | indent 8 }}
+{{- end }}
+      annotations:
+{{- if .Values.annotations}}
+      {{- range $key, $value := .Values.annotations }}
+        {{ $key }}: {{ $value | quote }}
+      {{- end }}
+{{- end }}
     spec:
       serviceAccountName: {{ include "asqatasun.serviceAccountName" . }}
       containers:
@@ -21,21 +30,53 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: {{ .Values.service.internalPort }}
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              path: {{ .Values.livenessProbe.path }}
               port: http
-            initialDelaySeconds: 15
-            periodSeconds: 10
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
           readinessProbe:
             httpGet:
-              path: /
+              path: {{ .Values.readinessProbe.path }}
               port: http
-            initialDelaySeconds: 15
-            periodSeconds: 10
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
           env:
-            {{- with .Values.env }}
-            {{- . | toYaml | trim | nindent 12 }}
+{{- with .Values.env }}
+{{- toYaml . | nindent 12 }}
+{{- end }}
+            - name: DB_DRIVER
+              value: {{ .Values.jdbc.driver }}
+            - name: DB_PORT
+              value: {{ .Values.jdbc.port }}
+            - name: DB_HOST
+              value: {{ .Values.jdbc.host }}
+            - name: DB_USER
+              value: {{ .Values.jdbc.username }}
+            - name: DB_PASSWORD
+            {{- if and .Values.jdbc.secretName .Values.jdbc.secretPasswordKey }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.jdbc.secretName }}
+                  key: {{ .Values.jdbc.secretPasswordKey }}
+            {{- else if .Values.jdbc.password }}
+              value: {{ .Values.jdbc.password }}
             {{- end }}
+          envFrom:
+{{- range .Values.extraConfig.secrets }}
+            - secretRef:
+                name: {{ . }}
+{{- end }}
+{{- range .Values.extraConfig.configmaps }}
+            - configMapRef:
+                name: {{ . }}
+{{- end }}
