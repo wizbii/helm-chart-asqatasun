@@ -3,7 +3,7 @@ replicaCount: 1
 image:
   repository: asqatasun/asqatasun
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
+  # -- Overrides the image tag whose default is the chart appVersion.
   tag: "5.0.0-rc.1"
 
 nameOverride: ""
@@ -13,12 +13,11 @@ annotations: {}
 podLabels: {}
 
 serviceAccount:
-  # Specifies whether a service account should be created
+  # -- Specifies whether a service account should be created
   create: false
-  # Annotations to add to the service account
+  # -- Annotations to add to the service account
   annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
+  # -- The name of the service account to use. If not set and create is true, a name is generated using the fullname template
   name: ""
 
 service:
@@ -26,20 +25,20 @@ service:
   externalPort: 80
   internalPort: 8080
 
-# Environment variables to attach to the pods
+# -- Environment variables to attach to the pods
 env: []
 #  - name: DEBUG_DISPLAY_SOFTWARE_VERSIONS
 #    value: "enabled"
 
-# Database configuration
-# If you use the bundled database (i.e. `mysql.enabled: true`), configure these values to match the bundled configuration
+# Database configuration. If you use the bundled database (i.e. `mysql.enabled: true`), configure these values to match the bundled configuration
 jdbc:
   driver: "mysql"
   port: "3306"
   host: "asqatasun-db"
   database: "asqatasun"
   username: "asqatasunDatabaseUserLogin"
-  password: "asqatasunDatabaseUserP4ssword" # Use this if you don't mind the DB password getting stored in plain text within the values file
+  # -- Use this if you don't mind the DB password getting stored in plain text within the values file
+  password: "asqatasunDatabaseUserP4ssword"
   secretName: ""
   secretPasswordKey: ""
 
@@ -57,8 +56,7 @@ readinessProbe:
   failureThreshold: 2
   timeoutSeconds: 1
 
-# extraConfig is used to load Environment Variables from Secrets and ConfigMaps
-# which may have been written by other tools, such as external orchestrators.
+# extraConfig is used to load Environment Variables from Secrets and ConfigMaps.
 extraConfig:
   secrets: []
   configmaps: []
