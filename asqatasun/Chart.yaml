@@ -1,6 +1,7 @@
 apiVersion: v2
 name: asqatasun
 description: A Helm chart to deploy asqatasun on Kubernetes
+icon: https://forum.asqatasun.org/uploads/default/optimized/1X/7c5abe821ea08a69faa1a731670b510f699f2bf3_2_180x180.png
 home: https://gitlab.com/wizbii/devops/helm-charts/asqatasun
 sources:
   - https://gitlab.com/asqatasun/asqatasun-docker
