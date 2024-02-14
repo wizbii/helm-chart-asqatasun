@@ -7,12 +7,22 @@ variables:
   HELM_CHART_NAME: "asqatasun"
   BITNAMI_REPO: https://charts.bitnami.com/bitnami
 
+image: ${GCR_URL}/devops/helm:master
+
 stages:
   - test
   - release
 
+Lint:
+  stage: test
+  script:
+    - helm repo add bitnami "${BITNAMI_REPO}"
+    - helm dependency build "${HELM_CHART_NAME}"
+    - helm lint "${HELM_CHART_NAME}"
+  rules:
+    - if: $CI_COMMIT_BRANCH
+
 Test:
-  image: ${GCR_URL}/devops/helm:master
   stage: test
   script:
     - helm repo add bitnami "${BITNAMI_REPO}"
@@ -22,7 +32,6 @@ Test:
     - if: $CI_COMMIT_BRANCH
 
 Package:
-  image: ${GCR_URL}/devops/helm:master
   stage: release
   rules:
     - if: $CI_COMMIT_TAG
