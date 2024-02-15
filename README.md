@@ -6,7 +6,7 @@ About this Repo
 
 This is the Git repo of the unofficial Asqatasun Helm Chart for [Asqatasun](https://asqatasun.org/).
 
-The actual chart can be found in the [asqatasun](asqatasun) directory and see the README of the chart for more information.
+The actual chart can be found in the [asqatasun](charts/asqatasun) directory and see the README of the chart for more information.
 
 This repo is not affiliated with the Asqatasun team, and we do not provide support for any Asqatasun products.
 
