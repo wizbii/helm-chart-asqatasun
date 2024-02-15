@@ -29,4 +29,4 @@ If you have a suggestion that would make this better, please fork the repo and c
 License
 -------
 
-Licensed under the [MIT Licence](asqatasun/LICENSE)
+Licensed under the [Apache-2.0 Licence](LICENSE)
