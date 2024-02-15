@@ -12,6 +12,28 @@ This repo is not affiliated with the Asqatasun team, and we do not provide suppo
 
 Head to [Asqatasun Doc](https://doc.asqatasun.org) or the [Asqatasun Forum](https://forum.asqatasun.org/) for more details.
 
+Usage
+----------------
+
+[Helm](https://helm.sh) must be installed to use the charts.  Please refer to
+Helm's [documentation](https://helm.sh/docs) to get started.
+
+Once Helm has been set up correctly, add the repo as follows:
+
+    helm repo add asqatasun https://wizbii.github.io/asqatasun
+
+If you had already added this repo earlier, run `helm repo update` to retrieve
+the latest versions of the packages.  You can then run `helm search repo
+asqatasun` to see the charts.
+
+To install the asqatasun chart:
+
+    helm install my-asqatasun asqatasun/asqatasun
+
+To uninstall the chart:
+
+    helm delete my-asqatasun
+
 Contributing
 ------------
 
