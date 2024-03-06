@@ -57,7 +57,7 @@ spec:
             - name: DB_DRIVER
               value: {{ .Values.jdbc.driver }}
             - name: DB_PORT
-              value: {{ .Values.jdbc.port }}
+              value: {{ .Values.jdbc.port | quote }}
             - name: DB_HOST
               value: {{ .Values.jdbc.host | quote }}
             - name: DB_USER

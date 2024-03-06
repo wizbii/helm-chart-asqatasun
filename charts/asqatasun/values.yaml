@@ -64,10 +64,10 @@ extraConfig:
 # Adjust these values to your needs, but make sure that the memory limit is never under 4 GB
 resources:
   limits:
-    cpu: 2
+    cpu: "2"
     memory: 4Gi
   requests:
-    cpu: 1
+    cpu: "1"
     memory: 2Gi
 
 ingress:
