@@ -3,6 +3,26 @@ entries:
   asqatasun:
   - apiVersion: v2
     appVersion: 5.0.0-rc.1
+    created: "2024-03-06T13:34:23.080572954Z"
+    dependencies:
+    - condition: mysql.enabled
+      name: mysql
+      repository: https://charts.bitnami.com/bitnami
+      version: ~9.18
+    description: A Helm chart to deploy asqatasun on Kubernetes
+    digest: 9aadb7dd645fc4839daa27a5a89f308053de2298b03c7822cf53a17c74006e76
+    home: https://gitlab.com/wizbii/devops/helm-charts/asqatasun
+    icon: https://forum.asqatasun.org/uploads/default/optimized/1X/7c5abe821ea08a69faa1a731670b510f699f2bf3_2_180x180.png
+    name: asqatasun
+    sources:
+    - https://gitlab.com/asqatasun/asqatasun-docker
+    - https://gitlab.com/asqatasun/Asqatasun
+    type: application
+    urls:
+    - https://github.com/wizbii/helm-chart-asqatasun/releases/download/asqatasun-0.0.6/asqatasun-0.0.6.tgz
+    version: 0.0.6
+  - apiVersion: v2
+    appVersion: 5.0.0-rc.1
     created: "2024-02-15T14:18:40.64919054Z"
     dependencies:
     - condition: mysql.enabled
@@ -21,4 +41,4 @@ entries:
     urls:
     - https://github.com/wizbii/helm-chart-asqatasun/releases/download/asqatasun-0.0.5/asqatasun-0.0.5.tgz
     version: 0.0.5
-generated: "2024-02-15T14:18:40.649199426Z"
+generated: "2024-03-06T13:34:23.080583303Z"
